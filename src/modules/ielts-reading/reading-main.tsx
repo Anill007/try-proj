@@ -42,9 +42,9 @@ function IeltsReadingMain() {
                     <th colSpan={4}>Research Findings</th>
                 </tr>
                 {
-                    tableData.map((row) => (
+                    tableData.map((row: any[]) => (
                         <tr>
-                            {row.map((data) => (
+                            {row.map((data: any[]) => (
                             <td>
                                 {data[0].includes("-") ? (
                                     <>
