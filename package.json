@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https:///BibekSitaula.github.io/eduportal-tcx-frontend",
+  "homepage": "https:///bibeksitaula.github.io/eduportal-tcx-frontend",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
