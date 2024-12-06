@@ -3,7 +3,6 @@ import './reading-main.css'
 
 function IeltsReadingMain() {
     let answers: string[] = ['am', 'are', 'Life', 'wow'];
-    let showAnswer = false;
 
     let [userAnswers, userAnswersState] = useState<string[]>(Array.from({ length: answers.length }, (_) => ''));
     let [showAnswerFlag, showAnswerFlagState] = useState(false);
