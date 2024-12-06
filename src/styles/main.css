@@ -78,7 +78,7 @@ button {
   table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
-    margin: 20px;
+    width: 100%;
   }
   
   td, th {

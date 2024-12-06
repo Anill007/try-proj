@@ -1,6 +1,12 @@
+import { useState } from 'react';
 import './reading-main.css'
 
 function IeltsReadingMain() {
+    let answers: string[] = ['am', 'are', 'Life', 'wow'];
+    let showAnswer = false;
+
+    let [userAnswers, userAnswersState] = useState<string[]>(Array.from({ length: answers.length }, (_) => ''));
+    let [showAnswerFlag, showAnswerFlagState] = useState(false);
 
     let passage = `
     Voluptatum minima distinctio veniam reprehenderit quibusdam nam cupiditate consequuntur delectus alias? Vero laudantium laborum fuga cumque, excepturi laboriosam nisi amet dolores quibusdam, iusto dolorum qui veniam natus, asperiores iure labore.
@@ -22,52 +28,85 @@ function IeltsReadingMain() {
     Laudantium cupiditate libero velit ea corporis minus cumque odio repudiandae consectetur minima. Ut eius officiis quisquam repellendus possimus porro accusantium illum rem, atque, accusamus odio tempora quibusdam praesentium illo qui.
     Facere aliquid excepturi minima repudiandae praesentium, deleniti in tempora corrupti. Temporibus mollitia cumque unde reprehenderit quos consectetur, in dolores sequi soluta voluptatum iste fugiat suscipit rem, aspernatur magni asperiores aliquam.
     Vel ratione doloremque voluptas optio nisi reiciendis aspernatur tempora fugit iste inventore adipisci perferendis reprehenderit voluptatum aliquam quasi illo nobis consequatur, dolore harum obcaecati minus ullam quo consequuntur! Enim, autem.`;
+    let tableData: any = [[['1'], ['2'], ['I - a boy.'], ['4']], [['5'], ['6'], ['7'], ['8']], [['9'], ['They - going to school.'], ['- is a race.'], ['12']], [['13'], ['14'], ['15'], ['- xiii']], [['17'], ['18'], ['19'], ['20']]]
 
-    let tableData: any = [[['1'], ['2'], ['3-'], ['4']],[['5'], ['6'], ['7'], ['8']], [['9'], ['10-'], ['1-1'], ['12']], [['13'], ['14'], ['15'], ['-16']], [['17'], ['18'], ['19'], ['20']]]
-  return (
-    <div className="reading-main-container">
-        <div className="page-title">
-            <h1>Ielts Reading Test</h1>
-        </div>
-        <div className="page-body">
-            <div className="passage-container">
-                {passage}
-                {passage}
-                {passage}
-                {passage}
+    let inputIndexCount = 0;
+
+    function updateAnswers(index: number, value: string) {
+        userAnswersState((prev) => {
+            let updatedAnswers = [...prev];
+            updatedAnswers[index] = value;
+            return updatedAnswers;
+        })
+    }
+
+    function increaseInputIndexCount() {
+        inputIndexCount++;
+    }
+
+    function checkAnswer() {
+        showAnswerFlagState(true);
+    }
+
+    function resetAnswer() {
+        showAnswerFlagState(false);
+        userAnswersState(Array.from({ length: answers.length }, (_) => ''));
+    }
+
+    return (
+        <div className="reading-main-container">
+            <div className="page-title">
             </div>
-            <div className="questions-container">
-            <table>
-                <tr>
-                    <th colSpan={4}>Research Findings</th>
-                </tr>
-                {
-                    tableData.map((row: any[]) => (
+            <div className="page-body">
+                <div className="passage-container">
+                    {passage}
+                </div>
+                <div className="questions-container">
+                    <table>
                         <tr>
-                            {row.map((data: any[]) => (
-                            <td>
-                                {data[0].includes("-") ? (
-                                    <>
-                                        {data[0].split("-")[0]}
-                                        <input type="text" />
-                                        {data[0].split("-")[1]}
-                                    </>
-                                ) : (
-                                    data
-                                )}
-                            </td>
-                            ))}
+                            <th colSpan={4}>Research Findings</th>
                         </tr>
-                    ))
-                }
-            </table>
+                        {
+                            tableData.map((row: any[]) => (
+                                <tr>
+                                    {row.map((data: any[]) => (
+                                        <td>
+                                            {data[0].includes("-") ? (
+                                                <>
+                                                    {data[0].split("-")[0]}
+                                                    <input type="text" name={`${inputIndexCount}`} onChange={(e) => updateAnswers(Number(e.target.name), e.target.value)} value={userAnswers[inputIndexCount]} disabled={showAnswerFlag} />
+                                                    {showAnswerFlag && (userAnswers[inputIndexCount] === answers[inputIndexCount]) ? <span>&#x2705;</span> : ''}
+                                                    {showAnswerFlag && (userAnswers[inputIndexCount] !== answers[inputIndexCount]) ? <span>❌</span> : ''}
+                                                    {data[0].split("-")[1]}
+                                                    {increaseInputIndexCount()}
+                                                </>
+                                            ) : (
+                                                data
+                                            )}
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))
+                        }
+                    </table>
+                    <br />
+                    <button onClick={checkAnswer} disabled={showAnswerFlag}>check answer</button>
+                    <br />
+                    <br />
+                    <button onClick={resetAnswer}>reset answer</button>
+                    <br />
+                    {showAnswerFlag &&
+                        answers.map((_, index) => {
+                            return <div>{index + 1}: {_}</div>
+                        })
+                    }
+                </div>
+            </div>
+            <div className="page-footer">
+                <button>next</button>
             </div>
         </div>
-        <div className="page-footer">
-            <button>next</button>
-        </div>
-    </div>
-  )
+    )
 }
 
 export default IeltsReadingMain
